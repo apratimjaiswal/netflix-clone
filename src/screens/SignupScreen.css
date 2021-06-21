@@ -53,3 +53,10 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* @media only screen and (max-width: 768px) { */
+@media only screen and (max-width: 425px) {
+  .signupScreen > form {
+    justify-content: space-around;
+  }
+}
