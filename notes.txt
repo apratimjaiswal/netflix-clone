@@ -1,0 +1,693 @@
+NETFLIX CLONE - React JS
+
+React, Redux, Firebase
+
+--------------------------------------------------------------------------------------------------------------
+
+Day 1: Intro
+Firebase: Set of tools provided by Google. We have Database, authentication and all the other stuff, cloud functions.
+Extensions in Firebase: Relatively new feature where we can basically upgrade our App, just install the Extension and it levels up the App and gives powerful stuff
+
+IMP: Firebase is BaaS: "Backend as a Service"
+IMP: Firebase is younger/newer than AWS
+
+AWS vs Firebase Comparison: https://www.sfappworks.com/blogs/firebase-vs-aws-comparision
+--------------------------------------------------------------------------------------------------------------
+
+Day 2: Homescreen Frontend and APIs
+
+1. Firebase
+a)
+Firebase is for Hosting your apps to the web.
+Think to develop your app for 100,000,000 user always.
+
+b) Cloud Firestore (Realtime Database)
+- Removes all the headaches of having a Database
+- And is a Realtime Synchronized Database - which means, as data goes in; the UI Gets updated and vice-versa.
+
+c) Authentication
+Firebase has all these authentications - Google, Facebook, Twitter etc.
+
+d) Cloud Funtions (of Firebase)
+
+--------------------------------------------------------------------------------------------------------------
+
+2. Setup
+a) 
+"npx create-react-app netflix-clone --template redux"
+
+- Set up a React app "netflix-clone" with a "template redux"
+
+--------------------------------------------------------------------------------------------------------------
+
+3 Firebase
+Firebase is Google's mobile platform that helps you quickly develop high-quality apps and grow your business.
+
+i) "firebase.google.com" -> Enter with your main Google account "*********@gmail.com" -> "Go to console"
+
+[A Firebase project is a container for your iOS, Android and Web apps.
+Apps in this project will share features like Database, User Management and Remote Config.
+A Firebase project is a Cloud project.
+When you create a new Firebase project in the Firebase console, you're actually creating a Google Cloud project behind the scenes]
+
+ii) Create new project -> May/May not enable Google Analytics
+
+iii) "On top left -> Besides the "Project Overview" -> Click on the Cog-Icon -> "Project settings" -> Scroll down to the "Your apps" area 
+and Get the credentials for your Web/Android/IOS application
+
+iv) Click for Project settings -> "Add Firebase to your web app" 
+# Register app 
+And "Also set up Firebase Hosting" 	//	because we want to deploy this app afterwards
+# Add Firebase SDK 	//	Ignore this
+# Install Firebase CLI
+"npm install -g firebase-tools"	//	This allows us to install Firebase Tools inside CLI
+# More Depedencies which we will cater to later
+
+v) Now go inside the console
+Project settings -> General -> "Your apps" -> Web apps -> netflix-clone -> SDK setup and configuration -> "Config"
+Config: Firebase configuration object containing keys and identifiers for your app
+- Copy that config
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "******************",
+  authDomain: "netflix-clone-ba17e.firebaseapp.com",
+  projectId: "netflix-clone-ba17e",
+  storageBucket: "netflix-clone-ba17e.appspot.com",
+  messagingSenderId: "**********",
+  appId: "1:*************:web:************",
+  measurementId: "G-*********"
+};
+
+vi) Now inside the root folder -> Add a file "firebase.js" -> Paste the above copied config in this file.
+
+vii) From the Left hand side -> Click "Build" -> "Authentication" -> Get Started -> Enable "Email/Password" Sign-in method
+
+--------------------------------------------------------------------------------------------------------------
+
+4 Inside Visual Studio Code
+a) Delete App.test.js, logo.svg, setupTests.js
+
+b)
+app.js file -> Delete lines 
+"import { Counter } from './features/counter/Counter';"
+"import logo from './logo.svg';"
+Remove the "<header>...</header>" code
+
+and Change the className from "App" to "app"
+<div className="app"> --> <div className="App">
+
+BEM naming convention (for classes)	// Block Element Modifier
+
+c) Bring "counterSlice.js" from inside the "features" folder -> to outside
+
+d) rfce -> "React Function Export Component"
+
+- rfce -> 
+- Add "className="nav"" -> 
+- Then create a new CSS file for this component ->  
+- import this CSS file inside the Component ->
+
+e)
+BEM naming convention
+<div className="nav">
+  <div className="nav__contents">
+	<img
+	  className="nav__logo"
+	  src="https://eritasdaily.files.wordpress.com/2018/09/netflix-logo.jpg"
+	  alt=""
+	/>
+
+	<img
+	  className="nav__avatar"
+	  src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+	  alt=""
+	/>
+  </div>
+</div>
+
+--------------------------------------------------------------------------------------------------------------
+
+5. Coding
+
+a) CSS 
+- position: fixed;
+
+- display: flex;
+justify-content: space-between;
+
+- Importing CSS
+import "./Banner.css";
+
+- Initial CSS Setup
+Delete everything inside App.css
+And in Index.css, add "margin: 0" for the whole of project
+* {
+margin: 0;
+}
+
+- CSS Trick to get "Fade Bottom"
+.banner--fadeBottom {
+  height: 7.4rem;
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(37, 37, 37, 0.61),
+    #111
+  );
+}
+
+- ellipsis function js
+
+- Targetting the modifiers inside the CSS // "-webkit-scrollbar" modifier
+.row__posters::-webkit-scrollbar {
+  display: none;
+}
+
+- Transform the scale of the image on hovering
+.row__poster:hover {
+  transform: scale(1.08);	//	1.08 is 8% scale
+  opacity: 1;
+}
+
+- object-fit: contain; // To maintain the aspect ratio
+
+- right: 20px; // top: 20px;
+//	.loginScreen__button {
+// 	 position: fixed;
+// 	 right: 20px;
+// 	 top: 20px;
+//	}
+
+- LINEAR GRADIENTS
+  background: rgba(0, 0, 0, 0.4);
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+   
+- max-width??
+- border-radius: 0.2vw; "vw is view width"??
+- font-size: 3rem?? "rem"??
+- z-index??
+
+b) Adding Event Listeners to Scrolling 
+  useEffect(() => {
+    window.addEventListener("scroll", transitionNavBar);
+  }, []);
+  
+Removing Event Listeners using the "Cleanup Function"
+  useEffect(() => {
+    window.addEventListener("scroll", transitionNavBar);
+
+    return () => window.removeEventListener("scroll", transitionNavBar);	//	Cleanup function
+  }, []);
+  
+c) <div className="nav nav__black"> ------> Template Strings for using "${}"
+  
+d) Self Closing Tags
+<div className="banner-fadeButton" />  
+
+e) Ternary operator
+- "movie?.backdrop_path"
+// If "movie" is defined, then access "backdrop_path" attribute // movie.backdrop_path
+// Otherwise, pass movie object, which is undefined
+
+- {movie?.title || movie?.name || movie?.original_name}
+
+f) useEffect is dependent on a Prop "fetchUrl"
+
+function Row({ title, fetchUrl, isLargeRow = false }) {
+  useEffect(() => {
+		.....
+		.....
+		.....
+  }, [fetchUrl]);
+
+g) VERY VERY IMPORTANT LEARNING:
+- Parenthesis has an implicit return statement while curly braces you need an explicit return statement
+
+// One can also use curly braces to prevent a single line arrow function from returning a value -- or to make it obvious 
+// to the next developer that a single line arrow function shouldn't, in this case, be returning anything
+
+--------------------------------------------------------------------------------------------------------------
+
+6. Implemeting the APIs
+a)
+The Movie Database (TMDb) https://www.themoviedb.org/
+Make an Account -> Profile -> Settings -> API
+API Key (v3 auth) "*********************"
+
+b)
+Making API Requests through "Axios" (Promise based library to make requests to the server)
+
+c) Make an Internal async function to make the request
+  useEffect(() => {
+    async function fetchData() {
+      const request = await axios.get(requests.fetchNetflixOriginals);
+      setMovie(
+        request.data.results[
+          Math.floor(Math.random() * request.data.results.length - 1)
+        ]
+      );
+      return request;	//	Return the request, to complete the Promise Chain - This is a good practice
+    }
+
+    fetchData();
+  }, []);
+  
+- Return the request, to complete the Promise Chain - This is a good practice
+// return request;
+
+d) TMDb have this Image URL Starter, for every image - "https://image.tmdb.org/t/p/original/"
+
+--------------------------------------------------------------------------------------------------------------
+
+7. Deployment
+a) In the CLI "firebase login"
+
+b) "firebase init"	
+//	This sets up our app connection with Firebase
+i) Go down to Option of "Hosting: Configure and deploy Firebase Hosting sites"
+- Use Spacebar to select this option
+ii) Please select an option
+- Use an existing project
+iii) What do you want to use as your public directory?
+Write "build"
+iv) Configure it as a single-page app?
+Say "y"
+v) Setup automatic builds and deploys with GitHub? 
+Say "N" // We don't want this feature
+
+c) Now we need to bundle this app and sent it to Firebase
+"npm run build" // Creates an Optimised Production Build
+// It goes into the build folder
+// Need to do this everytime we make changes
+
+d) "firebase deploy"
+
+--------------------------------------------------------------------------------------------------------------
+
+Day 3: Authentication & Plans/Profile Screen
+
+
+8. Firebase
+a) 
+Project settings -> General -> "Your apps" -> Web apps -> netflix-clone -> SDK setup and configuration -> "Config"
+Config: Firebase configuration object containing keys and identifiers for your app
+- Copy that config
+
+Now inside the root folder -> Add a file "firebase.js" -> Paste the above copied config in this file.
+
+b) Install Firebase
+"npm install firebase"
+
+c) Firebase -> Project Overview -> Project settings -> Authentication -> Sing-in method
+
+d) const firebaseApp = firebase.initializeApp(firebaseConfig);
+// Initialize App using the firebaseConfig
+
+e) const db = firebaseApp.firestore();
+// firestore - Realtime Database
+
+f) const auth = firebase.auth();
+// For authentication
+	
+g) Firebase User Register 
+//    auth.createUserWithEmailAndPassword();
+
+//    auth.createUserWithEmailAndPassword(
+      emailRef.current.value,
+      passwordRef.current.value
+    );
+
+// Check inside "Users" Tab in Firebase
+apratim@gmail.com | abcabc	
+
+h) Firebase SignIn/Authenticating User
+auth
+      .signInWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      .then((authUser) => {
+        console.log(authUser);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+	  
+i) onAuthStateChanged
+- It is a listener
+- It listens to any Authenticated State changes
+- Even if you are logged in and you refresh - It will store it to your local memory/browser
+// It basically pops in into a cookie and it knows that you are logged in from before
+
+auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        // Logged in
+        console.log(userAuth);
+      } else {
+        // Logged out
+      }
+    });	  
+--------------------------------------------------------------------------------------------------------------
+
+Day 4: 
+
+9. JavaScript/React: 
+
+a) If we click "submit" button inside of a "form" - It will trigger of a Page Refresh
+Or
+If we click anchor tag - It will trigger of a Page Refresh
+
+<form>
+        <h1>Sign In</h1>
+        <input placeholder="Email" type="email" />
+        <input placeholder="Password" type="password" />
+        <button type="submit">Sign In</button>	//	If we click "submit" button inside of a "form" - It will trigger of a Page Refresh
+		
+- So, need to preventDefault
+
+b) export { auth };	// Explicit exports		
+export default db;	// Default exports	
+
+c) useRef
+const emailRef = useRef(null);
+const passwordRef = useRef(null);		
+
+// <form>
+        <h1>Sign In</h1>
+        <input ref={emailRef} placeholder="Email" type="email" />			//	emailRef
+        <input ref={passwordRef} placeholder="Password" type="password" />	//	passwordRef
+		
+// emailRef.current.value,
+// passwordRef.current.value
+
+d) useEffect
+Very IMP: Whenever we are using useEffect, we should have a Cleanup.
+
+    return unsubscribe; // Cleanup function
+    // Equivalent Cleanup functioni is:
+    /* 
+      return () => {
+      unsunscribe(); //  Cleans up - Run the subscribe function
+    }; */
+	
+e) useHistory
+// import { useHistory } from "react-router-dom";
+// const history = useHistory();
+
+To programatically navigate to React-router
+- With "react-router", everytime we change page - we are essentially pushing a new page to "history"
+- We have a handy hook "useHistory" that gives us the history
+- and we can Programmatically push the next page into the history stack
+
+f) IMP: "React img encountered 403 when loading image"
+When I was working on a project, I encountered such a problem, that is, in the React project, 
+when I used the img tag to load the image of the webpage, I actually encountered 403, but the 
+browser directly put the address of the webpage image in the address bar. It can be loaded successfully, 
+but it will be 403 when it is placed in the React project and the web page image is loaded using img. 
+If this happens, the following is the solution:
+
+Add in the index.html file
+<meta name="referrer" content="no-referrer">
+
+meta name="referrer"??
+
+-----------------------------------------------------------------------------------------
+	
+10. Redux	
+Global store - To avoid Prop Drilling, get access to any variable
+
+"npx create-react-app netflix-clone --template redux"
+
+- Global store "redux" can have slices, which contain different section of information
+
+a) export const userSlice = createSlice({
+name: "user",		//	Name of the slice is "user"
+  initialState: {
+    user: null,
+  },
+b)   
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload;
+    },
+  },  
+  
+// We have created these 2 actions/reducers
+  reducers: {
+    login: (state, action) => {
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+    },
+  },
+  
+c) We "Dispatch" actions into the Global store
+- We have created 2 actions "login" and "logout"  
+- 2 Actions are inside the "user" section/slice of the store - So, these 2 actions have the ability to effect the "user" section of the store
+
+d) To get a peice of information out of the "user" store - we need to create a "selector"
+//	export const selectUser = (state) => state.user.user;
+
+//	"state.user.user"
+i) state.user
+- user slice of the store/state	
+	//	export const userSlice = createSlice({
+	//  name: "user", 
+ii) state.user.user	
+- Get the "user" from this slice
+	//  initialState: {
+	//    user: null,
+	//  },
+	
+e) "useDispatch"	
+i) In App.js -> "const dispatch = useDispatch();"
+
+ii) const user = useSelector(selectUser);
+// Get the value using useSelector
+
+f) Add "Redux DevTools"
+Offered by: Redux DevTools
+
+g) Steps during Login
+- Initially "user" is null - So, App shows the First/Login Screen
+- Then Firebase kicks in // auth.onAuthStateChanged
+and finds out that you are logged in.
+So let me, dispatch a "login" 
+- And then it updates the Redux state - So State changes
+- And that is why the App.js component re-renders and renders the "inside/Homescreen"
+
+---------------------------------------------------------------------------------------------------------------
+
+11. Deployment
+
+- "firebase login"
+- "npm run build"	//	To create an optimized Production Build
+- "firebase deploy"
+
+---------------------------------------------------------------------------------------------------------------
+
+Day 5. 
+
+12. Setting up the Database (Firestore)
+To store the user and the subscription
+
+a) Setup Cloud Firestore
+- One the left Panel -> "Firebase Database" (This is Cloud Firestore) -> Create database -> Start in 'test mode' -> Cloud Firestore location
+// Cloud Firestore location: Doesn't matter where the servers are. 
+
+--------------------------------------------------------------------------------------------------------------
+
+13. Setting up Stripe (Payments)
+b) Installing Extension "Run Subscription Payments with Stripe"
+	//	Firebase: Set of tools provided by Google. We have Database, authentication and all the other stuff, cloud functions.
+	//	Extensions in Firebase: Relatively new feature where we can basically upgrade our App, just install the Extension and it levels 
+		up the App and gives powerful stuff
+
+- Click on "Extensions" -> Explore Extensions -> "Run Subscription Payments with Stripe" -> Select Project
+
+Step 1: Review APIs enabled and resources created
+Step 2: Review billing and usage
+- Setup billign -> See Blaze Details - We will have to enter our card details to upgrade the plan (Credit card used, 2 rupees deducted)
+
+// Card is not going to charge us - Put a card - Setup the billing
+// Click "Upgrade project to continue" 
+
+- Billing Detals: 
+	//	Blaze Pay as you go
+	//	You will now be charged based on your usage of Database, Storage, Hosting, Machine Learning, Test Lab, Functions and Google Cloud servicesd
+	
+Step 3: Review access granted to this extension
+Step 4: Configure Extension
+- Leave the fields as defaults
+- It will make "collections" in Database - hence it is NoSql type database
+- "Sync new users to Stripe customers and Cloud Firestore": Sync
+- "Stripe API key with restricted access"	//	To get this Stripe API Key
+// Create an account in "Stripestripe.com › en-in"
+// Stripe powers the Payments (Payments infrastructure for the internet)
+
+-----------------
+14. Setting up Stripe (Payments)
+a) Create an account in "Stripestripe.com › en-in"
+// Stripe powers the Payments (Payments infrastructure for the internet)
+
+b) Create Company Name/Project Name - "Netflix-Clone"
+c) Get your API Keys
+i) Has "Test mode" where we have 2 keys: Publishable Key and Secret Key
+Also we have Live Key
+
+ii) Whenever we are using a Payment Processing Platform, we have 2 sets of Keys - Test key and a Live Key
+when we setup up our app, we use a "Test Key".
+For "Test Key", we use a "Fake card" and it pretends to charge a card, and will test the Payment
+
+iii) For our Firebase-Stripe Extension Setup, we want to use a Live Key - But since we are in Test Environment, we will use Stripes's Test key.
+- Use the "Secret Key"
+Publishable Key: "pk_test_**********************************************************************************"
+Secret Key: "sk_test_********************************************************************************************"
+
+iv) Now go back to Firebase-Stripe Extension Setup, and enter this Secret-Test-Key inside field "Stripe API key with restricted access"
+Hence, "Stripe API key with restricted access": "sk_test_********************************************************************************************"
+-------------------
+Back to Step 4: Configure Extension
+- "Stripe webhook secret": "FILL_IN_FROM_POSTINSTALL" // Leave it as it is
+
+// Finally, Install Extension
+// Installation will take 5 minutes
+
+d) "Set your Cloud Firestore security rules"
+
+// After Installation has completed
+Firebase console -> netflix-clone project -> Extensions -> "Stripe Extension" -> How this Extension works -> "Set your Cloud Firestore security rules"
+- Set your Cloud Firestore security rules [It is only allowing authorized users to checkout_sessions and subsciption]
+[IMP: Inside a Firestore collection, this Stripe Extension will automatically populate customers, their subscription and pricing plans inside a Firestore, all by itself]
+
+- Copy the Cloud-Security-Rules
+
+- Go to "Firestore Database (Cloud Firestore)" -> Rules -> Edit Rules - And Paste the Cloud-Security-Rules of Stripe -> "Publish"
+
+e) "Configure Stripe webhooks"
+Webhooks: Whenever something happens on Stripe, i.e. a product is created, updated, deleted - We need to go ahead and send an event to our Firebase application
+
+i) Firebase console -> netflix-clone project -> Extensions -> "Stripe Extension" -> How this Extension works -> "Configure Stripe webhooks"
+Here we get a unique url: "https://us-central1-netflix-clone-ba17e.cloudfunctions.net/ext-firestore-stripe-subscriptions-handleWebhookEvents"
+
+- Now, Go to Stripe Dashboard -> Netflix-Clone -> Developers -> Webhooks -> Endpoints (Add endpoint) -> Add the endpoint url from above
+
+ii) Now we need to activate this url for Webhook-Events.
+Manually all the Webhook-events inside the "Events to send"
+// These 12 events:
+product.created
+product.updated
+product.deleted
+price.created
+price.updated
+price.deleted
+checkout.session.completed
+customer.subscription.created
+customer.subscription.updated
+customer.subscription.deleted
+tax_rate.created (optional)
+tax_rate.updated (optional)
+
+"Add endpoint"
+
+iii) Using "Signing secret key" to "Reconfigure Stripe Extension"
+Using the Firebase console or Firebase CLI, reconfigure your extension with your webhook’s signing secret (such as, whsec_12345678). 
+Enter the value in the parameter called Stripe webhook secret.
+
+- Inside Stripe dashboard -> Signing secret -> Click to reveal
+Inside Stripe Extension in Firebase console -> Reconfigure extension -> "Stripe webhook secret" -> and Pase the secret key here -> Save.
+
+iv) Next step in Configuring Stripe: "Create product and pricing information"
+- Go to Stripe Dashboard -> Netflix-Clone -> Products -> Add Product
+
+Netflix has 3 Products/Plans: Basic Plan, Standard Plan & Premium Plan
+- Basic - 720p - Standard Pricing - Rs. 499
+- Standard - 720p - Rs. 649
+- Premium - 720p - Rs. 799
+
+v) Next step in Configuring Stripe: "Assign custom claim roles to products" [We are not doing this right now]
+
+vi) Next step in Configuring Stripe: "Configure the Stripe customer portal"
+1. Set your custom branding in the settings.
+2. Configure the Customer Portal settings.
+3. Toggle on “Allow customers to update their payment methods”.
+4. Toggle on “Allow customers to update subscriptions”.
+5. Toggle on “Allow customers to cancel subscriptions”.
+6. Add the products and prices that you want to allow customer to switch between.
+7. Set up the required business information and links.
+
+- Go to Stripe Dashboard -> Netflix-Clone -> Settings -> Branding
+Can add icons, logos and colors - To setup how the Payment screen looks
+
+- Go to Stripe Dashboard -> Netflix-Clone -> Settings -> Billings -> Customer Portal
+Enable the options as specified in this step
+
+- Add all the Products
+
+- Add Terms of Service // Dummy values for now
+Note: Changes to the following settings only apply to test mode
+To help you test your integration, any changes to functionality, products, or business information won’t affect your settings in live mode.
+
+So, if we switch the mode - we need to update this the second time.
+
+- Set up the required business information and links.
+Give it a business name
+
+
+NOW THE STRIPE PRODUCTS SHOULD SHOW INSIDE OF THE FIREBASE - CLOUD FIRESTORE (Realtime database)
+It automatically pulls the products from Stripe to the Cloud Firestore
+
+--------------------------------------------------------------------------------------------------------------
+
+Day 6.
+
+15. PlansScreen Page
+
+a) Products from Stripe -> Firestore -> fetch the Products from Firestore
+
+- Firestore is getting populated based on Stripes information, (because of the Extension)
+- We have Firestore at one side
+- We have Stripe at one side (Holding information regarding Products Plans)
+- We have Extension that bridges the two together.
+
+- Whenever we have a Product in Stripe - We go and update the Product in Firestore - Because of the Extension
+
+b) "map" function on the array object
+	//	arrData.map(v => { /* do something */ })
+	
+- Now to map on the "Object" - we can't use the "map" function
+	//	So we use the 'Object.entries"
+	//	Object.entries(dataObject)	//	This returns an array back, in form of a Key-Value pair
+	
+c) Emmet Abbreviation	
+
+d) Create a Checkout Session (When user tries to buy a plan)
+
+	  const loadCheckout = async (priceId) => {
+		const docRef = await db
+		  .collection("customers")			//	Get the Customers from Firestore db collection
+		  .doc(user.uid)					//	Find the user doc with the user id - user.uid	//	"user" is the current logged in user - Which we have fetched from Redux
+		  .collection("checkout_sessions")	//	Create a new Collection
+		  .add({
+			price: priceId,
+			success_url: window.location.origin,
+			cancel_url: window.location.origin,
+		  });
+	  };
+	  
+- When we redirect the user to Payment page - We need 2 Routes; the Success URL and the Cancel URL
+	//	If user wants to Cancel anytime - Where does Stripe send them back to
+	//	If user is successful with the Payment - Where do we send them - To a confirmation screen or do we send them back where the came from
