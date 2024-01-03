@@ -1,14 +1,21 @@
-# NETFLIX CLONE
+# Netflix Clone - Introduction
 
 - This project was bootstrapped with **[Create React App](https://github.com/facebook/create-react-app)**, using the **[Redux](https://redux.js.org/)** and **[Redux Toolkit](https://redux-toolkit.js.org/)** template.<br />
-- Firebase Authentication, Firebase cloud Firestore & Firebase deployment - **[Google Firebase](https://firebase.google.com)** <br />
+- Firebase Authentication, Firebase Cloud Firestore & Firebase Deployment - **[Google Firebase](https://firebase.google.com)** <br />
 - **[Stripe](https://stripe.com/)** integration for payment<br /><br />
 
-## Run the live website here: [Netflix Clone](https://netflix-clone-ba17e.web.app)
+# Run the live website here: [Netflix Clone](https://netflix-clone-ba17e.web.app)
 
 You may use the following **`dummy credential`** for signing-in as an existing user:<br />
 Username: `abc@domain.com`<br />
 Password: `abcabc`
+
+# Live App Screenshots
+
+![1](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/5d290e2b-60e0-491a-aa2a-df8638d744e7)
+![2](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/d2f32e68-eb4d-4ef1-87ba-7234d9bd1e76)
+![3](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/aaf7760f-e3ef-4252-9f87-93a64785de13)
+![4](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/c4eae494-7570-4bc8-affe-db0cafeb3b9c)
 
 ## Available Scripts
 
@@ -38,9 +45,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# Live App Screenshots
 
-![1](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/5d290e2b-60e0-491a-aa2a-df8638d744e7)
-![2](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/d2f32e68-eb4d-4ef1-87ba-7234d9bd1e76)
-![3](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/aaf7760f-e3ef-4252-9f87-93a64785de13)
-![4](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/c4eae494-7570-4bc8-affe-db0cafeb3b9c)
