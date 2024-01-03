@@ -37,3 +37,10 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# Live App Screenshots
+
+![1](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/5d290e2b-60e0-491a-aa2a-df8638d744e7)
+![2](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/d2f32e68-eb4d-4ef1-87ba-7234d9bd1e76)
+![3](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/aaf7760f-e3ef-4252-9f87-93a64785de13)
+![4](https://github.com/apratimjaiswal/netflix-clone/assets/85786673/c4eae494-7570-4bc8-affe-db0cafeb3b9c)
